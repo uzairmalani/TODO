@@ -98,3 +98,12 @@ Isdone
 	background-color: rgb(145, 191, 75) !important;
 	text-decoration: line-through !important;
 }
+
+.deleted{
+width: 44px; display: block; right: -64px;
+}
+.over {
+  transform: scale(1.1, 1.1);
+  transition: 1.5s;
+  opacity: 0.4;
+}
