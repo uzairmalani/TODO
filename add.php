@@ -14,8 +14,8 @@ if(isset($_POST['name'])){
 	
 	if (!empty($name)) {
 		$addedQuery = $db->prepare("
-			INSERT INTO item (description, isdone, createdt, itemPosition)
-			VALUES (:name, 0, NOW(), $n)
+			INSERT INTO item (description, isdone, createdt, itemPosition, listColor)
+			VALUES (:name, 0, NOW(), $n, '#73b8bf')
 			");
 
 		$addedQuery->execute([

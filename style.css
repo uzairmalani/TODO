@@ -43,10 +43,10 @@ p { margin: 0 0 6px 0; }
 #list { list-style: none; }
 #list li { position: relative; margin: 0 0 8px 0; padding: 0 0 0 70px; width: 607px; }
 #list li span { padding: 8px; -moz-border-radius: 5px; -webkit-border-radius: 5px; width: 589px; display: block; position: relative; }
-.colorBlue span { background: rgb(115, 184, 191); }
+.colorBlue span { background: #73b8bf; }
 .colorYellow span { background: rgb(255, 255, 255); }
-.colorRed span { background: rgb(187, 49, 47); color: white; }
-.colorGreen span { background: rgb(145, 191, 75); }
+.colorRed span { background: #c15c5c; }
+.colorGreen span { background: #91bf4b; }
 .tab { background: url(images/minibuttons.png) no-repeat; height: 21px; top: 4px; }
 .draggertab { position: absolute; left: 0px; width: 31px; cursor: move; }
 .draggertab:hover { background-position: 0 -21px; }
@@ -98,6 +98,8 @@ Isdone
 	background-color: rgb(145, 191, 75) !important;
 	text-decoration: line-through !important;
 }
+
+
 
 .deleted{
 width: 44px; display: block; right: -64px;

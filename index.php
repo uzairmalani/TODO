@@ -4,8 +4,9 @@ require_once 'init.php';
 
  $n=1;
 
+ 
 $itemsQuery = $db->prepare("
-  SELECT Id, description, isdone, itemPosition
+  SELECT Id, description, isdone, itemPosition, listColor
   FROM item
   ");
 
@@ -17,10 +18,85 @@ $itemsQuery->execute([
 $items = $itemsQuery->rowCount() ? $itemsQuery : [];
 
 
+
+
 /*foreach ($items as $item) {
   # code...
   echo $item['description'], '<br>';
 }*/
+
+if( isset($_POST['Color']) && isset($_POST['Id']) ){
+ echo $_POST['Color'];
+ echo $_POST['Id'];
+
+ $Color = $_POST['Color'];
+ $description    = $_POST['Id'];
+require_once 'init.php';
+
+    if ($Color =="#c15c5c") {
+     $up = $db->prepare("
+       UPDATE item
+       SET listColor = '#c15c5c'
+      WHERE description = '$description' 
+        ");
+      $up->execute([
+     'user' => $_SESSION['user_id']
+      ]);
+  echo "red";
+}elseif($Color =="#91bf4b"){
+  $up = $db->prepare("
+       UPDATE item
+       SET listColor = '#91bf4b'
+      WHERE description = '$description' 
+        ");
+      $up->execute([
+     'user' => $_SESSION['user_id']
+      ]);
+  echo "green";
+
+}elseif($Color =="#73b8bf"){
+  $up = $db->prepare("
+       UPDATE item
+       SET listColor = '#73b8bf'
+      WHERE description = '$description' 
+        ");
+      $up->execute([
+     'user' => $_SESSION['user_id']
+      ]);
+  echo "blue";
+
+}else{
+    echo "not success";
+}
+
+ exit;
+}
+
+
+// if (isset($_POST['update'])){
+//   echo $_POST['update'];
+//   print_r($_POST['postions']);
+//   foreach ($_POST['postions'] as $postion => $update) {
+//     $index = $postion[0];
+//     $newPosition = $postion[1];
+
+//       require_once 'init.php';
+
+//        $pos = $db->prepare("
+//        UPDATE item
+//        SET itemPosition = $newPosition
+//       WHERE Id = $index
+//         ");
+//       $pos->execute([
+//      'user' => $_SESSION['user_id']
+//       ]);
+
+
+//     # code...
+//   }
+//   exit('success');
+// }
+
 
 ?>
 
@@ -29,9 +105,13 @@ $items = $itemsQuery->rowCount() ? $itemsQuery : [];
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
   <link rel="stylesheet" href="style.css" type="text/css" />
+   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <title></title>
-</head>
 
+
+ 
+</head>
+    
 <body>
   <div id="page-wrap">
     <div id="header">
@@ -138,8 +218,9 @@ $items = $itemsQuery->rowCount() ? $itemsQuery : [];
 	  <br />
  -->
 
+   <div id='response'></div>
 <?php if(!empty($items)): ?>
- <ul id="list" class="listitems ui-sortable">
+ <ul id="list" class="sortable listitems ui-sortable">
 
 <?php 
  
@@ -147,13 +228,24 @@ foreach($items as $item):
 
    $in = $item['itemPosition'];
  ?>
+      <?php
+      $col=$item['listColor'];
+    
+      if ($col=="#91bf4b") {
+       $bgcl="colorGreen";
+      }elseif($col=="#c15c5c"){
+        $bgcl="colorRed";
+      }elseif($col=="#73b8bf"){
+        $bgcl="colorBlue";
+      }
+      ?>
 
-        <li data-position="<?php echo $item['itemPosition'];?>" color="<?php echo $item['itemPosition']; ?>listitem" class="colorBlue draggable" draggable="true" rel="1" id="2">
-          <span id="changed" class="changed <?php echo $item['isdone'] ? ' isdone' : '' ?>" title="Double-click to edit..."><?php echo $item['description']; ?></span>
+        <li data-index="<?php echo $item['Id'];?>" id="<?php echo $item['itemPosition'];?>"  color="<?php echo $item['itemPosition']; ?>listitem" class="<?php echo $bgcl ?>" rel="1" data-position="<?php echo $item['itemPosition'];?>" >
+          <span  class="changed  <?php echo $item['isdone'] ? ' isdone' : '' ?>" title="Double-click to edit..."><?php echo $item['description']; ?> </span>
          
           <div class="draggertab tab"></div>
 
-          <div class="colortab tab" onclick="randomize(<?php echo $in ?>)"></div>
+          <div id="color_tab" class="colortab tab" ></div>
 
            <a class="delete" href="del.php?as=done&item=<?php echo $item['Id'];   ?>">
           <div id="delete_tab" class="deletetab tab" >
@@ -183,20 +275,17 @@ foreach($items as $item):
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script  src="function.js"></script>
-    <script>
+<!--     <script>
 
 
-      function randomize(n) {
+      function randomize(obj , n) {
      // var x= document.getElementsByClassName('changed');
      // var i=0;
      // // for (i = 0; i < x.length; i++) {
      // x[i].style.background = randomColors();
-     // }
-
-
-    
-         
-  document.getElementsByClassName('changed')[n-1].style.background = randomColors();
+     // }        
+     $(this).parent('li').find('.changed').css('background', randomColors());
+    // document.getElementsByClassName('changed')[n-1].style.background = randomColors();
       }
      
 
@@ -206,7 +295,21 @@ foreach($items as $item):
       function randomColors() {
       return  '#' + Math.floor(Math.random() * 16777215).toString(16);
       }
-    </script>
+    </script> -->
+
+    <!--  <script>
+    $( function() {
+    $( ".sortable" ).sortable({
+      update: function(event, ui){
+        $(this).sortable('serialize');
+      }
+
+    });
+    // $( ".sortable" ).disableSelection();
+  } );
+  </script> -->
+      <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 </body>
 </html>
