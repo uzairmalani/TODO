@@ -73,6 +73,11 @@ require_once 'init.php';
 }
 
 
+
+
+
+
+
 // if (isset($_POST['update'])){
 //   echo $_POST['update'];
 //   print_r($_POST['postions']);
@@ -240,7 +245,7 @@ foreach($items as $item):
       }
       ?>
 
-        <li data-index="<?php echo $item['Id'];?>" id="<?php echo $item['itemPosition'];?>"  color="<?php echo $item['itemPosition']; ?>listitem" class="<?php echo $bgcl ?>" rel="1" data-position="<?php echo $item['itemPosition'];?>" >
+        <li  id="<?php echo $item['Id'];?>"  color="<?php echo $item['itemPosition']; ?>listitem" class="<?php echo $bgcl ?> .sortables" rel="1" data-position="<?php echo $item['itemPosition'];?>" >
           <span  class="changed  <?php echo $item['isdone'] ? ' isdone' : '' ?>" title="Double-click to edit..."><?php echo $item['description']; ?> </span>
          
           <div class="draggertab tab"></div>
@@ -275,6 +280,13 @@ foreach($items as $item):
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script  src="function.js"></script>
+
+<script type="text/javascript">
+ 
+</script>
+
+
+
 <!--     <script>
 
 

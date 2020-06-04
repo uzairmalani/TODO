@@ -1,3 +1,4 @@
+//color Change
 $(function() {
   $(".colortab").click(function() {
 
@@ -36,27 +37,29 @@ $( ".text-changed").dblclick(function() {
 });
 
 // What to do when user changes the text of the input
-function textChanged(){
+// function textChanged(){
 
-  $( "#text1_input").hide();
-  $( ".text-changed").html($( "#text1_input" ).val()); // Copies the text of the input box to the span.
-  $( ".text-changed").show();
+//   $( "#text1_input").hide();
+//   $( ".text-changed").html($( "#text1_input" ).val()); // Copies the text of the input box to the span.
+//   $( ".text-changed").show();
       
-  // Here update the database
+//   // Here update the database
       
-}
+// }
 
-// On blur and on enter pressed, call the textChanged function
-$( "#text1_input").blur(textChanged);
-$( "#text1_input").keypress(function (e) {
- var key = e.which;
- if(key == 13)  // the enter key code
-  {
-    textChanged();
-    return false;  
-  }
-});
+// // On blur and on enter pressed, call the textChanged function
+// $( "#text1_input").blur(textChanged);
+// $( "#text1_input").keypress(function (e) {
+//  var key = e.which;
+//  if(key == 13)  // the enter key code
+//   {
+//     textChanged();
+//     return false;  
+//   }
+// });
 
+
+//delete task
 jQuery(function($) {
     $('.delete').click(function() {
           $('.deletetab', this).addClass('deleted');
@@ -70,14 +73,79 @@ jQuery(function($) {
     });
 });
 
-$(function(){
- $(".sortable").sortable({
-  stop: function(event, ui){
-    var parameters = $(this).sortable("toArray");
-    $.post("save.php",{value:parameters}, function(result){})
-  }
- })
-});
+//Drag and Drop
+  $( function() {
+    $( ".sortable" ).sortable({
+        delay: 150,
+        stop: function() {
+            var selectedData = new Array();
+            $('.sortable>li').each(function() {
+                selectedData.push($(this).attr("id"));
+            });
+            updateOrder(selectedData);
+        }
+    });
+
+
+    function updateOrder(data) {
+        $.ajax({
+            url:"save.php",
+            type:'post',
+            data:{position:data},
+            success:function(){
+             
+            }
+        })
+    }
+  });
+
+
+
+// $(function(){
+// $('.sortable').sortable({
+//     items: '.sortables',
+//     start: function(event, ui) {
+//         // Create a temporary attribute on the element with the old index
+//         $(this).attr('data-currentindex', ui.item.index());
+//     },
+//     update: function(event, ui) {
+//         let user_id = $('#user_id').val();
+//         let current_position = $(this).attr('data-currentindex');
+//         let desired_position = ui.item.index();
+
+//         // Reset the current index
+//         $(this).removeAttr('data-currentindex');
+
+//         // Post to the server to handle the changes
+//         $.ajax({
+//             type: "POST",
+//             url: "/url-to-handle-database-updates/",
+//             data: {
+//                 desired_position: desired_position,
+//                 current_position: current_position,
+//                 user_id: user_id
+//             },
+//             beforeSend: function() {
+//                 // Disable dragging
+//                 $('.sortable').sortable('disable');
+//             },
+//             success: function(html) {
+//                 // Re-enable dragging
+//                 $('.sortable').sortable('enable');
+//             }
+//         });
+//     }
+// });
+// });
+
+// $(function(){
+//  $(".sortable").sortable({
+//   stop: function(event, ui){
+//     var parameters = $(this).sortable("toArray");
+//     $.post("save.php",{value:parameters}, function(result){})
+//   }
+//  })
+// });
 
 
 
@@ -107,29 +175,29 @@ $(function(){
 //     // $( ".sortable" ).disableSelection();
 // });
     
-function saveNewPositions(){
-    var positions = [];
-    $('.updated').each(function(){
-      positions.push([$(this).attr('data-index'), $(this).attr('data-postion')]);
-      $(this).removeClass('updated');
+// function saveNewPositions(){
+//     var positions = [];
+//     $('.updated').each(function(){
+//       positions.push([$(this).attr('data-index'), $(this).attr('data-postion')]);
+//       $(this).removeClass('updated');
 
-    });
-    alert(positions);
+//     });
+//     alert(positions);
 
-    $.ajax({
-      url: 'index.php',
-      method: 'POST',
-      dataType: 'text',
-      data: {
-        update: 1,
-        positions: positions
-      }, success: function(response){
-        console.log(response);
-      }
-    });
-}
+//     $.ajax({
+//       url: 'index.php',
+//       method: 'POST',
+//       dataType: 'text',
+//       data: {
+//         update: 1,
+//         positions: positions
+//       }, success: function(response){
+//         console.log(response);
+//       }
+//     });
+// }
 
-
+//sorting
 $(function() {
   $(".listitems li").sort(sort_li).appendTo('.listitems');
   function sort_li(a, b) {
